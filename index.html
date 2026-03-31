@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cuestionario</title>
+  <title>Cuestionario interactivo</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,36 +12,91 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f5f7fb, #e8eef8);
-      color: #1d2a3a;
+      background: linear-gradient(135deg, #f3f6fb, #e7eef8);
+      color: #1c2b3a;
     }
 
     .app {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 24px;
     }
 
     .card {
-      background: #ffffff;
+      background: #fff;
       border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       padding: 24px;
+      margin-bottom: 20px;
     }
 
     h1, h2, h3 {
       margin-top: 0;
+      color: #1d4e89;
     }
 
-    .intro {
+    .topbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
       margin-bottom: 20px;
     }
 
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #1f5ea8;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #174a84;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #e8eef8;
+      color: #23415f;
+    }
+
+    .btn-secondary:hover {
+      background: #d8e5f5;
+    }
+
+    .btn-green {
+      background: #1b9b52;
+      color: white;
+    }
+
+    .btn-green:hover {
+      background: #157b40;
+    }
+
+    .btn-red {
+      background: #cf3c3c;
+      color: white;
+    }
+
+    .btn-red:hover {
+      background: #a82f2f;
+    }
+
+    .hidden {
+      display: none;
+    }
+
     .section-title {
-      margin: 30px 0 15px;
+      margin-top: 30px;
       padding-bottom: 8px;
       border-bottom: 2px solid #dce6f5;
-      color: #204b84;
     }
 
     .question-box {
@@ -56,11 +111,12 @@
       font-size: 18px;
       font-weight: bold;
       margin-bottom: 14px;
+      color: #21364e;
     }
 
     .options {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
@@ -70,11 +126,6 @@
       border-radius: 10px;
       padding: 10px 14px;
       cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .options label:hover {
-      background: #eef5ff;
     }
 
     .matching-item {
@@ -94,69 +145,19 @@
       font-size: 16px;
     }
 
-    select {
+    select, input[type="text"], textarea {
       width: 100%;
       padding: 11px 12px;
       font-size: 15px;
       border-radius: 10px;
       border: 1px solid #bccce4;
       background: #fff;
+      font-family: Arial, sans-serif;
     }
 
-    .btn-bar {
-      margin-top: 28px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: none;
-      border-radius: 12px;
-      padding: 13px 22px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .btn-primary {
-      background: #1f5ea8;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #174b86;
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: #e8eef8;
-      color: #23415f;
-    }
-
-    .btn-secondary:hover {
-      background: #d9e5f5;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .result-screen {
-      min-height: 70vh;
-      animation: fadeSlide 0.8s ease;
-    }
-
-    @keyframes fadeSlide {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    textarea {
+      min-height: 150px;
+      resize: vertical;
     }
 
     .score-panel {
@@ -166,56 +167,34 @@
       background: linear-gradient(135deg, #1f5ea8, #3f82d1);
       color: white;
       border-radius: 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .score-panel::after {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.10);
-      top: -60px;
-      right: -40px;
+      animation: fadeSlide 0.7s ease;
     }
 
     .score-title {
       font-size: 20px;
-      margin-bottom: 10px;
-      opacity: 0.95;
+      margin-bottom: 8px;
     }
 
     .score-value {
-      font-size: 48px;
+      font-size: 46px;
       font-weight: 800;
       margin-bottom: 10px;
-      animation: popIn 0.6s ease;
+      animation: popIn 0.5s ease;
     }
 
     .score-extra {
       font-size: 18px;
-      opacity: 0.95;
     }
 
     @keyframes popIn {
-      0% {
-        transform: scale(0.7);
-        opacity: 0;
-      }
-      70% {
-        transform: scale(1.08);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1);
-      }
+      0% { transform: scale(0.7); opacity: 0; }
+      70% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); }
     }
 
-    .details-title {
-      margin: 0 0 18px;
-      color: #204b84;
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .detail-card {
@@ -259,74 +238,159 @@
       color: #5e6f84;
     }
 
-    .small-note {
-      margin-top: 8px;
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .admin-block {
+      border: 1px solid #dbe6f4;
+      border-radius: 14px;
+      padding: 18px;
+      background: #f9fbff;
+    }
+
+    .inline-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .admin-item {
+      border: 1px solid #dce7f6;
+      background: white;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .small-label {
+      font-size: 13px;
+      color: #5f7186;
+      margin-bottom: 6px;
+      display: block;
+      font-weight: bold;
+    }
+
+    .helper {
       font-size: 14px;
-      color: #6b7a8e;
+      color: #5f7186;
+      margin-top: 6px;
+    }
+
+    .empty-box {
+      padding: 18px;
+      border: 2px dashed #cddbf0;
+      border-radius: 12px;
+      color: #607287;
+      background: #fff;
     }
 
     @media (max-width: 700px) {
-      .matching-item {
+      .matching-item,
+      .inline-grid-2 {
         grid-template-columns: 1fr;
       }
 
       .score-value {
         font-size: 38px;
       }
-
-      .question-text {
-        font-size: 17px;
-      }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <div id="quizScreen" class="card">
-      <div class="intro">
+    <div class="topbar">
+      <button class="btn-primary" onclick="mostrarVista('quiz')">Resolver cuestionario</button>
+      <button class="btn-secondary" onclick="mostrarVista('admin')">Panel de administración</button>
+      <button class="btn-green" onclick="exportarJSON()">Exportar JSON</button>
+      <button class="btn-secondary" onclick="descargarRespaldo()">Descargar respaldo</button>
+    </div>
+
+    <div id="quizView">
+      <div id="quizScreen" class="card">
         <h1>Cuestionario</h1>
         <p class="muted">Respondé las preguntas y al final vas a ver tu resultado con el detalle completo.</p>
+        <div id="quizContent"></div>
+
+        <div class="topbar" style="margin-top:20px;">
+          <button class="btn-primary" onclick="finalizarCuestionario()">Finalizar y corregir</button>
+          <button class="btn-secondary" onclick="reiniciarRespuestas()">Borrar respuestas</button>
+        </div>
       </div>
 
-      <div id="quizContent"></div>
+      <div id="resultScreen" class="card hidden">
+        <div class="score-panel">
+          <div class="score-title">Resultado final</div>
+          <div id="scoreValue" class="score-value">0%</div>
+          <div id="scoreExtra" class="score-extra">0 de 0 correctas</div>
+        </div>
 
-      <div class="btn-bar">
-        <button class="btn-primary" onclick="finalizarCuestionario()">Finalizar y corregir</button>
-        <button class="btn-secondary" onclick="reiniciarRespuestas()">Borrar respuestas</button>
+        <h2>Detalle de respuestas</h2>
+        <div id="detailsContainer"></div>
+
+        <div class="topbar" style="margin-top:20px;">
+          <button class="btn-primary" onclick="volverAlCuestionario()">Volver al cuestionario</button>
+        </div>
       </div>
     </div>
 
-    <div id="resultScreen" class="card result-screen hidden">
-      <div class="score-panel">
-        <div class="score-title">Resultado final</div>
-        <div id="scoreValue" class="score-value">0%</div>
-        <div id="scoreExtra" class="score-extra">0 de 0 correctas</div>
-      </div>
+    <div id="adminView" class="hidden">
+      <div class="card">
+        <h1>Panel de administración</h1>
+        <p class="muted">
+          Desde acá podés crear preguntas sin tocar el código. Los cambios quedan guardados en este navegador.
+        </p>
 
-      <h2 class="details-title">Detalle de respuestas</h2>
-      <div id="detailsContainer"></div>
+        <div class="admin-grid">
+          <div class="admin-block">
+            <h2>Preguntas Verdadero / Falso</h2>
+            <div id="adminVFList"></div>
+            <div class="admin-actions">
+              <button class="btn-primary" onclick="agregarVF()">Agregar pregunta V/F</button>
+            </div>
+          </div>
 
-      <div class="btn-bar">
-        <button class="btn-primary" onclick="volverAlCuestionario()">Volver al cuestionario</button>
+          <div class="admin-block">
+            <h2>Bloques de emparejamiento</h2>
+            <div id="adminMatchList"></div>
+            <div class="admin-actions">
+              <button class="btn-primary" onclick="agregarBloqueMatch()">Agregar bloque de emparejamiento</button>
+            </div>
+          </div>
+
+          <div class="admin-block">
+            <h2>Importar JSON</h2>
+            <label class="small-label" for="jsonInput">Pegá acá un JSON completo</label>
+            <textarea id="jsonInput" placeholder='Pegá acá el contenido del JSON...'></textarea>
+            <div class="admin-actions">
+              <button class="btn-green" onclick="importarJSON()">Importar JSON</button>
+            </div>
+            <div class="helper">
+              Esto reemplaza todo el cuestionario actual por el contenido pegado.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    /*
-      ============================================================
-      ACA CARGAS TUS PREGUNTAS DE FORMA SENCILLA
-      ============================================================
-    */
-    const cuestionario = {
+    const STORAGE_KEY = "cuestionarioInteractivoAgus";
+
+    const cuestionarioBase = {
       verdaderoFalso: [
         {
           pregunta: "Montevideo es la capital de Uruguay.",
           correcta: true
-        },
-        {
-          pregunta: "La Biblia tiene 100 libros.",
-          correcta: false
         },
         {
           pregunta: "Jesús nació en Belén.",
@@ -338,22 +402,14 @@
           titulo: "Emparejá cada país con su capital",
           pares: [
             { izquierda: "Uruguay", correcta: "Montevideo" },
-            { izquierda: "Argentina", correcta: "Buenos Aires" },
-            { izquierda: "Chile", correcta: "Santiago" }
+            { izquierda: "Argentina", correcta: "Buenos Aires" }
           ],
           opciones: ["Montevideo", "Buenos Aires", "Santiago", "Lima"]
-        },
-        {
-          titulo: "Emparejá cada personaje con su historia",
-          pares: [
-            { izquierda: "Noé", correcta: "Arca" },
-            { izquierda: "David", correcta: "Goliat" },
-            { izquierda: "Jonás", correcta: "Gran pez" }
-          ],
-          opciones: ["Arca", "Goliat", "Gran pez", "Egipto"]
         }
       ]
     };
+
+    let cuestionario = cargarDesdeStorage();
 
     const quizContent = document.getElementById("quizContent");
     const quizScreen = document.getElementById("quizScreen");
@@ -361,6 +417,38 @@
     const scoreValue = document.getElementById("scoreValue");
     const scoreExtra = document.getElementById("scoreExtra");
     const detailsContainer = document.getElementById("detailsContainer");
+
+    function cargarDesdeStorage() {
+      try {
+        const guardado = localStorage.getItem(STORAGE_KEY);
+        if (guardado) {
+          const data = JSON.parse(guardado);
+          if (data && Array.isArray(data.verdaderoFalso) && Array.isArray(data.emparejamiento)) {
+            return data;
+          }
+        }
+      } catch (error) {
+        console.error("No se pudo cargar desde localStorage:", error);
+      }
+      return JSON.parse(JSON.stringify(cuestionarioBase));
+    }
+
+    function guardarEnStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cuestionario));
+    }
+
+    function mostrarVista(vista) {
+      document.getElementById("quizView").classList.toggle("hidden", vista !== "quiz");
+      document.getElementById("adminView").classList.toggle("hidden", vista !== "admin");
+
+      if (vista === "quiz") {
+        renderizarCuestionario();
+      } else {
+        renderizarAdmin();
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
     function renderizarCuestionario() {
       quizContent.innerHTML = "";
@@ -374,21 +462,13 @@
         cuestionario.verdaderoFalso.forEach((item, index) => {
           const box = document.createElement("div");
           box.className = "question-box";
-
           box.innerHTML = `
-            <div class="question-text">${index + 1}. ${item.pregunta}</div>
+            <div class="question-text">${index + 1}. ${esc(item.pregunta)}</div>
             <div class="options">
-              <label>
-                <input type="radio" name="vf_${index}" value="true">
-                Verdadero
-              </label>
-              <label>
-                <input type="radio" name="vf_${index}" value="false">
-                Falso
-              </label>
+              <label><input type="radio" name="vf_${index}" value="true"> Verdadero</label>
+              <label><input type="radio" name="vf_${index}" value="false"> Falso</label>
             </div>
           `;
-
           quizContent.appendChild(box);
         });
       }
@@ -405,16 +485,16 @@
           const bloqueDiv = document.createElement("div");
           bloqueDiv.className = "question-box";
 
-          let html = `<div class="question-text">${bloqueBase + bloqueIndex + 1}. ${bloque.titulo}</div>`;
+          let html = `<div class="question-text">${bloqueBase + bloqueIndex + 1}. ${esc(bloque.titulo)}</div>`;
 
           bloque.pares.forEach((par, parIndex) => {
             html += `
               <div class="matching-item">
-                <div class="matching-left">${par.izquierda}</div>
+                <div class="matching-left">${esc(par.izquierda)}</div>
                 <div>
                   <select name="match_${bloqueIndex}_${parIndex}">
                     <option value="">Seleccionar...</option>
-                    ${bloque.opciones.map(op => `<option value="${op}">${op}</option>`).join("")}
+                    ${bloque.opciones.map(op => `<option value="${escAttr(op)}">${esc(op)}</option>`).join("")}
                   </select>
                 </div>
               </div>
@@ -425,6 +505,10 @@
           quizContent.appendChild(bloqueDiv);
         });
       }
+
+      if (cuestionario.verdaderoFalso.length === 0 && cuestionario.emparejamiento.length === 0) {
+        quizContent.innerHTML = `<div class="empty-box">No hay preguntas cargadas todavía. Entrá al Panel de administración para agregarlas.</div>`;
+      }
     }
 
     function finalizarCuestionario() {
@@ -432,10 +516,8 @@
       let respuestasCorrectas = 0;
       let detalles = [];
 
-      // Verdadero / Falso
       cuestionario.verdaderoFalso.forEach((item, index) => {
         totalPreguntas++;
-
         const seleccionada = document.querySelector(`input[name="vf_${index}"]:checked`);
         const valorSeleccionado = seleccionada ? seleccionada.value === "true" : null;
         const esCorrecta = valorSeleccionado === item.correcta;
@@ -446,27 +528,19 @@
           tipo: "vf",
           correcta: esCorrecta,
           pregunta: item.pregunta,
-          elegida:
-            valorSeleccionado === null
-              ? "Sin responder"
-              : valorSeleccionado ? "Verdadero" : "Falso",
+          elegida: valorSeleccionado === null ? "Sin responder" : (valorSeleccionado ? "Verdadero" : "Falso"),
           correctaTexto: item.correcta ? "Verdadero" : "Falso"
         });
       });
 
-      // Emparejamiento
-      cuestionario.emparejamiento.forEach((bloque) => {
+      cuestionario.emparejamiento.forEach((bloque, bloqueIndex) => {
         totalPreguntas++;
-
         let correctasBloque = 0;
         let totalPares = bloque.pares.length;
         let detallePares = [];
 
         bloque.pares.forEach((par, parIndex) => {
-          const selector = document.querySelector(
-            `select[name="match_${cuestionario.emparejamiento.indexOf(bloque)}_${parIndex}"]`
-          );
-
+          const selector = document.querySelector(`select[name="match_${bloqueIndex}_${parIndex}"]`);
           const elegida = selector ? selector.value : "";
           const estaBien = elegida === par.correcta;
 
@@ -480,7 +554,7 @@
           });
         });
 
-        const bloqueCorrecto = correctasBloque === totalPares;
+        const bloqueCorrecto = correctasBloque === totalPares && totalPares > 0;
         if (bloqueCorrecto) respuestasCorrectas++;
 
         detalles.push({
@@ -498,7 +572,6 @@
 
     function mostrarResultado(correctas, total, detalles) {
       const porcentaje = total > 0 ? Math.round((correctas / total) * 100) : 0;
-
       scoreValue.textContent = `${porcentaje}%`;
       scoreExtra.textContent = `${correctas} de ${total} correctas`;
 
@@ -510,38 +583,33 @@
 
         if (detalle.tipo === "vf") {
           card.innerHTML = `
-            <div class="detail-question">${index + 1}. ${detalle.pregunta}</div>
+            <div class="detail-question">${index + 1}. ${esc(detalle.pregunta)}</div>
             <div class="detail-row">
               Tu respuesta:
-              <span class="${detalle.correcta ? "answer-correct" : "answer-incorrect"}">
-                ${detalle.elegida}
-              </span>
+              <span class="${detalle.correcta ? "answer-correct" : "answer-incorrect"}">${esc(detalle.elegida)}</span>
             </div>
             <div class="detail-row">
               Respuesta correcta:
-              <span class="muted">${detalle.correctaTexto}</span>
+              <span class="muted">${esc(detalle.correctaTexto)}</span>
             </div>
           `;
-        }
-
-        if (detalle.tipo === "match") {
-          let paresHtml = detalle.pares.map(par => `
+        } else {
+          const paresHtml = detalle.pares.map(par => `
             <div class="detail-row">
-              <strong>${par.izquierda}</strong> →
-              <span class="${par.estado ? "answer-correct" : "answer-incorrect"}">${par.elegida}</span>
-              ${par.estado ? "" : `<span class="muted"> | Correcta: ${par.correcta}</span>`}
+              <strong>${esc(par.izquierda)}</strong> →
+              <span class="${par.estado ? "answer-correct" : "answer-incorrect"}">${esc(par.elegida)}</span>
+              ${par.estado ? "" : `<span class="muted"> | Correcta: ${esc(par.correcta)}</span>`}
             </div>
           `).join("");
 
           card.innerHTML = `
-            <div class="detail-question">${index + 1}. ${detalle.pregunta}</div>
+            <div class="detail-question">${index + 1}. ${esc(detalle.pregunta)}</div>
             <div class="detail-row">
               Resultado del bloque:
               <span class="${detalle.correcta ? "answer-correct" : "answer-incorrect"}">
                 ${detalle.correctasBloque} de ${detalle.totalPares} emparejamientos correctos
               </span>
             </div>
-            <div class="small-note">Detalle:</div>
             ${paresHtml}
           `;
         }
@@ -568,6 +636,253 @@
       document.querySelectorAll('select').forEach(select => {
         select.value = "";
       });
+    }
+
+    function renderizarAdmin() {
+      renderizarAdminVF();
+      renderizarAdminMatch();
+      document.getElementById("jsonInput").value = JSON.stringify(cuestionario, null, 2);
+    }
+
+    function renderizarAdminVF() {
+      const cont = document.getElementById("adminVFList");
+      cont.innerHTML = "";
+
+      if (cuestionario.verdaderoFalso.length === 0) {
+        cont.innerHTML = `<div class="empty-box">Todavía no hay preguntas de Verdadero/Falso.</div>`;
+        return;
+      }
+
+      cuestionario.verdaderoFalso.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "admin-item";
+        div.innerHTML = `
+          <label class="small-label">Pregunta</label>
+          <input type="text" value="${escAttr(item.pregunta)}" onchange="editarVFTexto(${index}, this.value)">
+
+          <label class="small-label" style="margin-top:10px;">Respuesta correcta</label>
+          <select onchange="editarVFRespuesta(${index}, this.value)">
+            <option value="true" ${item.correcta ? "selected" : ""}>Verdadero</option>
+            <option value="false" ${!item.correcta ? "selected" : ""}>Falso</option>
+          </select>
+
+          <div class="admin-actions">
+            <button class="btn-red" onclick="eliminarVF(${index})">Eliminar</button>
+          </div>
+        `;
+        cont.appendChild(div);
+      });
+    }
+
+    function renderizarAdminMatch() {
+      const cont = document.getElementById("adminMatchList");
+      cont.innerHTML = "";
+
+      if (cuestionario.emparejamiento.length === 0) {
+        cont.innerHTML = `<div class="empty-box">Todavía no hay bloques de emparejamiento.</div>`;
+        return;
+      }
+
+      cuestionario.emparejamiento.forEach((bloque, bloqueIndex) => {
+        const div = document.createElement("div");
+        div.className = "admin-item";
+
+        let paresHtml = "";
+        bloque.pares.forEach((par, parIndex) => {
+          paresHtml += `
+            <div class="inline-grid-2" style="margin-bottom:10px;">
+              <div>
+                <label class="small-label">Columna izquierda</label>
+                <input type="text" value="${escAttr(par.izquierda)}"
+                  onchange="editarMatchParIzquierda(${bloqueIndex}, ${parIndex}, this.value)">
+              </div>
+              <div>
+                <label class="small-label">Respuesta correcta</label>
+                <input type="text" value="${escAttr(par.correcta)}"
+                  onchange="editarMatchParCorrecta(${bloqueIndex}, ${parIndex}, this.value)">
+              </div>
+            </div>
+            <div class="admin-actions" style="margin-bottom:12px;">
+              <button class="btn-red" onclick="eliminarParMatch(${bloqueIndex}, ${parIndex})">Eliminar este par</button>
+            </div>
+          `;
+        });
+
+        div.innerHTML = `
+          <label class="small-label">Título del bloque</label>
+          <input type="text" value="${escAttr(bloque.titulo)}" onchange="editarMatchTitulo(${bloqueIndex}, this.value)">
+
+          <label class="small-label" style="margin-top:10px;">Opciones del desplegable (separadas por coma)</label>
+          <input type="text" value="${escAttr(bloque.opciones.join(", "))}" onchange="editarMatchOpciones(${bloqueIndex}, this.value)">
+
+          <div style="margin-top:14px;">
+            <h3 style="margin-bottom:10px;">Pares</h3>
+            ${paresHtml || '<div class="empty-box">No hay pares en este bloque.</div>'}
+          </div>
+
+          <div class="admin-actions">
+            <button class="btn-primary" onclick="agregarParMatch(${bloqueIndex})">Agregar par</button>
+            <button class="btn-red" onclick="eliminarBloqueMatch(${bloqueIndex})">Eliminar bloque</button>
+          </div>
+        `;
+
+        cont.appendChild(div);
+      });
+    }
+
+    function agregarVF() {
+      cuestionario.verdaderoFalso.push({
+        pregunta: "Nueva pregunta",
+        correcta: true
+      });
+      refrescarTodoAdmin();
+    }
+
+    function editarVFTexto(index, valor) {
+      cuestionario.verdaderoFalso[index].pregunta = valor;
+      guardarEnStorage();
+      renderizarCuestionario();
+    }
+
+    function editarVFRespuesta(index, valor) {
+      cuestionario.verdaderoFalso[index].correcta = valor === "true";
+      guardarEnStorage();
+      renderizarCuestionario();
+    }
+
+    function eliminarVF(index) {
+      cuestionario.verdaderoFalso.splice(index, 1);
+      refrescarTodoAdmin();
+    }
+
+    function agregarBloqueMatch() {
+      cuestionario.emparejamiento.push({
+        titulo: "Nuevo bloque de emparejamiento",
+        pares: [
+          { izquierda: "Elemento 1", correcta: "Respuesta 1" }
+        ],
+        opciones: ["Respuesta 1", "Respuesta 2"]
+      });
+      refrescarTodoAdmin();
+    }
+
+    function editarMatchTitulo(bloqueIndex, valor) {
+      cuestionario.emparejamiento[bloqueIndex].titulo = valor;
+      guardarEnStorage();
+      renderizarCuestionario();
+    }
+
+    function editarMatchOpciones(bloqueIndex, valor) {
+      const opciones = valor
+        .split(",")
+        .map(x => x.trim())
+        .filter(x => x.length > 0);
+
+      cuestionario.emparejamiento[bloqueIndex].opciones = opciones;
+      guardarEnStorage();
+      renderizarCuestionario();
+    }
+
+    function agregarParMatch(bloqueIndex) {
+      cuestionario.emparejamiento[bloqueIndex].pares.push({
+        izquierda: "Nuevo elemento",
+        correcta: "Nueva respuesta"
+      });
+      refrescarTodoAdmin();
+    }
+
+    function editarMatchParIzquierda(bloqueIndex, parIndex, valor) {
+      cuestionario.emparejamiento[bloqueIndex].pares[parIndex].izquierda = valor;
+      guardarEnStorage();
+      renderizarCuestionario();
+    }
+
+    function editarMatchParCorrecta(bloqueIndex, parIndex, valor) {
+      cuestionario.emparejamiento[bloqueIndex].pares[parIndex].correcta = valor;
+      guardarEnStorage();
+      renderizarCuestionario();
+    }
+
+    function eliminarParMatch(bloqueIndex, parIndex) {
+      cuestionario.emparejamiento[bloqueIndex].pares.splice(parIndex, 1);
+      refrescarTodoAdmin();
+    }
+
+    function eliminarBloqueMatch(bloqueIndex) {
+      cuestionario.emparejamiento.splice(bloqueIndex, 1);
+      refrescarTodoAdmin();
+    }
+
+    function exportarJSON() {
+      const json = JSON.stringify(cuestionario, null, 2);
+      navigator.clipboard.writeText(json)
+        .then(() => {
+          alert("JSON copiado al portapapeles.");
+        })
+        .catch(() => {
+          alert("No se pudo copiar automáticamente. Usá el panel para copiarlo manualmente.");
+        });
+    }
+
+    function descargarRespaldo() {
+      const contenido = JSON.stringify(cuestionario, null, 2);
+      const blob = new Blob([contenido], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "preguntas.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importarJSON() {
+      const texto = document.getElementById("jsonInput").value.trim();
+
+      if (!texto) {
+        alert("Pegá un JSON antes de importar.");
+        return;
+      }
+
+      try {
+        const data = JSON.parse(texto);
+
+        if (!data || !Array.isArray(data.verdaderoFalso) || !Array.isArray(data.emparejamiento)) {
+          alert("El JSON no tiene la estructura esperada.");
+          return;
+        }
+
+        cuestionario = data;
+        guardarEnStorage();
+        renderizarCuestionario();
+        renderizarAdmin();
+        alert("JSON importado correctamente.");
+      } catch (error) {
+        alert("El JSON tiene un error de formato.");
+        console.error(error);
+      }
+    }
+
+    function refrescarTodoAdmin() {
+      guardarEnStorage();
+      renderizarAdmin();
+      renderizarCuestionario();
+    }
+
+    function esc(texto) {
+      return String(texto ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function escAttr(texto) {
+      return String(texto ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
     }
 
     renderizarCuestionario();
