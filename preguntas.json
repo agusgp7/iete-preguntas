@@ -1,0 +1,84 @@
+{
+  "verdaderoFalso": [
+    {
+      "pregunta": "\"Diablo\" sognifica el que acusa o calumnia, en el griego original",
+      "correcta": true
+    },
+    {
+      "pregunta": "Satanas en griego significa \"Apolion\" y traducido es \"Resisitidor\"",
+      "correcta": false
+    },
+    {
+      "pregunta": "Dragón es un nombre propio de Satanás y aparece en el Apocalipsis once veces",
+      "correcta": true
+    },
+    {
+      "pregunta": "Serpiente significa \"persona muy mala, infernal, perversa, desenfrenada\"",
+      "correcta": false
+    },
+    {
+      "pregunta": "Al \"principe de los demonios\" el representante de todos los ángeles caídos se lo llama \"Beelzebú\"",
+      "correcta": true
+    },
+    {
+      "pregunta": "La mentira mas grande que royecta Satanás es negar la existencia de Dios",
+      "correcta": true
+    },
+    {
+      "pregunta": "Mateo 16:18 dice que las huestes del infierno no prevalecerán contra la iglesia",
+      "correcta": true
+    },
+    {
+      "pregunta": "Dios ha declarado en su Palabra que su reino es corto",
+      "correcta": false
+    },
+    {
+      "pregunta": "Nueva pregunta",
+      "correcta": true
+    }
+  ],
+  "emparejamiento": [
+    {
+      "titulo": "Relacione columna A de acuerdo con la Columna B",
+      "pares": [
+        {
+          "izquierda": "\"Daimones\"",
+          "correcta": "Demonios"
+        },
+        {
+          "izquierda": "Influencia",
+          "correcta": "Efecto producido a distancia"
+        },
+        {
+          "izquierda": "\"Daimonizomai\"",
+          "correcta": "Poseído"
+        },
+        {
+          "izquierda": "Cosmos",
+          "correcta": "Mundo"
+        },
+        {
+          "izquierda": "Filosofía de Caín",
+          "correcta": "Modelo perfecto de independencia de Dios"
+        },
+        {
+          "izquierda": "Slogan de Satanás",
+          "correcta": "Nos rebelaremos"
+        },
+        {
+          "izquierda": "Cambio de personalidad",
+          "correcta": "Persona endemoniada"
+        }
+      ],
+      "opciones": [
+        "Poseído",
+        "Modelo perfecto de independencia de Dios",
+        "Persona endemoniada",
+        "Demonios",
+        "Nos rebelaremos",
+        "Mundo",
+        "Efecto producido a distancia"
+      ]
+    }
+  ]
+}
