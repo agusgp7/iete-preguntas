@@ -409,14 +409,21 @@
       ]
     };
 
-    let cuestionario = cargarDesdeStorage();
+let cuestionario = {};
 
-    const quizContent = document.getElementById("quizContent");
-    const quizScreen = document.getElementById("quizScreen");
-    const resultScreen = document.getElementById("resultScreen");
-    const scoreValue = document.getElementById("scoreValue");
-    const scoreExtra = document.getElementById("scoreExtra");
-    const detailsContainer = document.getElementById("detailsContainer");
+async function iniciarApp() {
+  try {
+    const res = await fetch("preguntas.json");
+    cuestionario = await res.json();
+  } catch (e) {
+    console.warn("No se pudo cargar preguntas.json, uso localStorage");
+    cuestionario = cargarDesdeStorage();
+  }
+
+  renderizarCuestionario();
+}
+
+iniciarApp();
 
     function cargarDesdeStorage() {
       try {
